@@ -6,7 +6,8 @@
 </head>
 <body>
 	<h1>menu</h1>	
-	<a th:href="@{/user/search}" class="btn">サンプル</a>
-<input type="button" onclick="location.href='@{/user/search}'" value="ユーザー検索">
+	<form method="get" th:action="@{/user/search}">
+		<button type="submit" name="user">ユーザー検索</button>
+	</form>
 </body>
 </html>
