@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.form.UserFrom;
+import com.example.form.UserForm;
 import com.example.model.UserModel;
 import com.example.service.UserSearchService;
 import com.example.util.UtilConst;
@@ -30,13 +30,13 @@ public class UserSearchController {
 	private UserSearchService userSearchService;
 
 	@GetMapping(UtilConst.MAPPING_PATH_SEARCH)
-	public String getUserSearch(Model model ,@ModelAttribute @Validated UserFrom form, BindingResult bindingResult) {
+	public String getUserSearch(Model model ,@ModelAttribute @Validated UserForm form, BindingResult bindingResult) {
 		//userSearch.htmlに遷移
 		return UtilConst.RESPONSE_PATH_USER_SEARCH;
 	}
 	
 	@PostMapping(UtilConst.MAPPING_PATH_SEARCH)
-	public String postUserSearch(Model model ,@ModelAttribute @Validated UserFrom form, BindingResult bindingResult) {
+	public String postUserSearch(Model model ,@ModelAttribute @Validated UserForm form, BindingResult bindingResult) {
 		
 //		UserModel requestUserModel;
 		
