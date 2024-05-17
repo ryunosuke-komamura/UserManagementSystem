@@ -3,7 +3,7 @@ package com.example.model;
 import lombok.Data;
 
 @Data
-public class UserEntity {
+public class UserModel {
 
 	/**
 	 * ユーザーID
