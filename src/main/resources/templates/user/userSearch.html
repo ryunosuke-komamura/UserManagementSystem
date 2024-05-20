@@ -5,7 +5,7 @@
 <title>userSearch</title>
 </head>
 <body>
-	<form method="post" action="/user/search" th:object="${userFrom}">
+	<form method="post" action="/user/search" th:object="${userForm}">
 		ユーザーID<input type="text" th:field="*{userId}" th:errorclass="is-invalid">
 		<div class="invalid-feedback" th:errors="*{userId}"></div>
 		<input type="submit" value="検索">
