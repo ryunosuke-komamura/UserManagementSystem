@@ -54,8 +54,12 @@ public class UserSearchController {
 		
 		List<UserModel> userList = new ArrayList<UserModel>();
 		UserModel user = new UserModel();
-		user.setUserId(userModel.getUserId());
-		user.setUserName(userList1.get(0).getUserName());
+		user.setUserId("aaaaa");
+		//user.setUserId(userModel.getUserId());
+		if(!userList1.isEmpty()) {
+			user.setUserName(userList1.get(0).getUserName());
+		}
+		//user.setUserName(userList1.get(0).getUserName());
 		userList.add(user);
 		
 		model.addAttribute("userList",userList);

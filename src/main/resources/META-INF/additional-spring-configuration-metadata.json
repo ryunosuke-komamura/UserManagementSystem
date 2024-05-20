@@ -1,5 +1,12 @@
-{"properties": [{
-  "name": "spring.datasource.initialize",
-  "type": "java.lang.String",
-  "description": "A description for 'spring.datasource.initialize'"
-}]}
+{"properties": [
+  {
+    "name": "spring.datasource.initialize",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.initialize'"
+  },
+  {
+    "name": "spring.session.store-type",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.session.store-type'"
+  }
+]}
