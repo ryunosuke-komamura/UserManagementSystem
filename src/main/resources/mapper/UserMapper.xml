@@ -10,10 +10,10 @@
 		FROM
 			MST_USER
 		<where>
-			<if test="userId != null">
+			<if test="userId != null and userId != '' ">
 				USER_ID = #{userId}
 			</if>
-			<if test="userName != null">
+			<if test="userName != null and userName != ''">
 				AND USER_NAME = #{userName}
 			</if>
 		</where>
