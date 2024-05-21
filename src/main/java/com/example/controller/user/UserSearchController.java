@@ -52,7 +52,7 @@ public class UserSearchController {
 		// SearchServiceの実行
 		List<UserModel> userList1 = userSearchService.getUser();
 		
-		List<UserModel> userList = new ArrayList<UserModel>();
+		List<UserModel> responseUserList = new ArrayList<UserModel>();
 		UserModel user = new UserModel();
 		
 		// 画面入力を固定で画面に表示
@@ -62,9 +62,9 @@ public class UserSearchController {
 		if(!userList1.isEmpty()) {
 			user.setUserName(userList1.get(0).getUserName());
 		}
-		userList.add(user);
+		responseUserList.add(user);
 		
-		model.addAttribute("userList",userList);
+		model.addAttribute("userList",responseUserList);
 
 		return UtilConst.RESPONSE_PATH_USER_SEARCH;
 	}
