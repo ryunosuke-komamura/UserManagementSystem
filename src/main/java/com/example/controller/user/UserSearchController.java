@@ -50,7 +50,7 @@ public class UserSearchController {
 		UserModel userModel = modelMapper.map(form, UserModel.class);
 		
 		// SearchServiceの実行
-		List<UserModel> userList1 = userSearchService.getUser();
+		List<UserModel> userList1 = userSearchService.getUser(userModel);
 		
 		List<UserModel> responseUserList = new ArrayList<UserModel>();
 		UserModel user = new UserModel();

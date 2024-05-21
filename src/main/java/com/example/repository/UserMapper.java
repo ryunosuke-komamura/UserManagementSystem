@@ -10,6 +10,6 @@ import com.example.model.UserModel;
 public interface UserMapper {
 
 	/** ユーザー検索 */
-	public List<UserModel> findUser();
+	public List<UserModel> findUser(UserModel userModel);
 	
 }

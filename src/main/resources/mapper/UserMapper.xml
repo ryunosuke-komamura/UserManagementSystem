@@ -9,6 +9,14 @@
 			*
 		FROM
 			MST_USER
+		<where>
+			<if test="userId != null">
+				USER_ID = #{userId}
+			</if>
+			<if test="userName != null">
+				AND USER_NAME = #{userName}
+			</if>
+		</where>
 	</select>
 
 </mapper>

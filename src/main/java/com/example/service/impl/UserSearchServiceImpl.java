@@ -19,7 +19,7 @@ public class UserSearchServiceImpl implements UserSearchService{
 	private UserMapper mapper;
 	
 	//ユーザー1件検索
-	public List<UserModel> getUser() {
+	public List<UserModel> getUser(UserModel userModel) {
 //		Map<String, Object> map = repository.findByUserId(userId);
 //		
 //		UserModel user = new UserModel();
@@ -27,6 +27,6 @@ public class UserSearchServiceImpl implements UserSearchService{
 //		user.setUserName((String)map.get("USER_NAME"));
 //		
 //		return user;
-		return mapper.findUser();
+		return mapper.findUser(userModel);
 	}
 }
