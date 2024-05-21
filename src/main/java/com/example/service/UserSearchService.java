@@ -6,6 +6,6 @@ import com.example.model.UserModel;
 
 public interface UserSearchService {
 
-	/** ユーザー1件検索 */
+	/** ユーザーテーブル検索 */
 	public List<UserModel> getUser(UserModel userModel);
 }

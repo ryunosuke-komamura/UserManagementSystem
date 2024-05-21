@@ -9,7 +9,7 @@ import com.example.model.UserModel;
 @Mapper
 public interface UserMapper {
 
-	/** ユーザー検索 */
+	/** ユーザーテーブル検索 */
 	public List<UserModel> findUser(UserModel userModel);
 	
 }

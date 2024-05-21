@@ -18,7 +18,7 @@ public class UserSearchServiceImpl implements UserSearchService{
 	@Autowired
 	private UserMapper mapper;
 	
-	//ユーザー1件検索
+	/** ユーザーテーブル検索 */
 	public List<UserModel> getUser(UserModel userModel) {
 //		Map<String, Object> map = repository.findByUserId(userId);
 //		
