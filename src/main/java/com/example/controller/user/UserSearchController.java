@@ -1,6 +1,5 @@
 package com.example.controller.user;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -30,16 +29,16 @@ public class UserSearchController {
 	private UserSearchService userSearchService;
 
 	@GetMapping(UtilConst.MAPPING_PATH_SEARCH)
+	/** 画面遷移：ユーザー検索画面 */
 	public String getUserSearch(Model model ,@ModelAttribute @Validated UserForm form, BindingResult bindingResult) {
 		//userSearch.htmlに遷移
 		return UtilConst.RESPONSE_PATH_USER_SEARCH;
 	}
-	
+
 	@PostMapping(UtilConst.MAPPING_PATH_SEARCH)
+	/** 機能：ユーザー検索ボタン */
 	public String postUserSearch(Model model ,@ModelAttribute @Validated UserForm form, BindingResult bindingResult) {
-		
-//		UserModel requestUserModel;
-		
+				
 		if(bindingResult.hasErrors()) {
 
 			// バリデーションチェックエラー後の遷移先
@@ -50,23 +49,10 @@ public class UserSearchController {
 		UserModel userModel = modelMapper.map(form, UserModel.class);
 		
 		// SearchServiceの実行
-		List<UserModel> userList1 = userSearchService.getUser(userModel);
+		List<UserModel> userList = userSearchService.getUser(userModel);
 		
-		List<UserModel> responseUserList = new ArrayList<UserModel>();
-		UserModel user = new UserModel();
-		
-		// 画面入力を固定で画面に表示
-		user.setUserId(userModel.getUserId());
-		
-		// 検索した一覧があれば一覧に格納
-		if(!userList1.isEmpty()) {
-			user.setUserName(userList1.get(0).getUserName());
-		}
-		responseUserList.add(user);
-		
-		model.addAttribute("userList",responseUserList);
+		model.addAttribute("userList",userList);
 
 		return UtilConst.RESPONSE_PATH_USER_SEARCH;
 	}
-	
 }
