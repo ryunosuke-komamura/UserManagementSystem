@@ -55,4 +55,30 @@ public class UserSearchController {
 
 		return UtilConst.RESPONSE_PATH_USER_SEARCH;
 	}
+
+	@PostMapping(UtilConst.MAPPING_PATH_DELETE)
+	/** 機能：ユーザー削除ボタン */
+	public String postUserDelete(Model model ,@ModelAttribute @Validated UserForm form, BindingResult bindingResult) {
+				
+		if(bindingResult.hasErrors()) {
+
+			// バリデーションチェックエラー後の遷移先
+			return UtilConst.RESPONSE_PATH_USER_SEARCH;
+		}
+		
+		// formを個別modelに変換
+		UserModel userModel = modelMapper.map(form, UserModel.class);
+		
+		// SearchServiceの実行
+		userSearchService.deleteUser(userModel);
+		
+		// SearchServiceの実行
+		List<UserModel> userList = userSearchService.getUser(new UserModel());
+		
+		model.addAttribute("userList",userList);
+
+		return UtilConst.RESPONSE_PATH_USER_SEARCH;
+	}
+	
+	
 }

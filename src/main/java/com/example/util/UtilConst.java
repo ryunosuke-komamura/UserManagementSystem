@@ -29,9 +29,9 @@ public class UtilConst {
 
 	/** レスポンスパス　ユーザー検索画面　user/userSearch */
 	public static final String RESPONSE_PATH_USER_SEARCH = "user/userSearch";
-	/** レスポンスパス　ユーザー登録変更画面　user/userSearch */
+	/** レスポンスパス　ユーザー登録変更画面　user/userRegister */
 	public static final String RESPONSE_PATH_USER_REGISTER = "user/userRegister";
-	/** レスポンスパス　ユーザー登録内容確認画面　user/userSearch */
+	/** レスポンスパス　ユーザー登録内容確認画面　user/userConfirmation */
 	public static final String RESPONSE_PATH_USER_CONFIRMATION = "user/userConfirmation";
 
 	/** レスポンスパス　資格検索画面　qualification/qualificationSearch */
