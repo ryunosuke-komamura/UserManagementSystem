@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="com.example.repository.UserQualMapper">
+	<delete id="deleteUserQual">
+		DELETE RELA_USER_QUALIFICATION
+	    FROM 
+			MST_USER 
+		LEFT OUTER JOIN
+			RELA_USER_QUALIFICATION
+			ON MST_USER.USER_ID = RELA_USER_QUALIFICATION.USER_ID
+		WHERE 
+			MST_USER.USER_ID = #{userId}
+	</delete>
+
+</mapper>
