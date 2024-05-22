@@ -18,5 +18,25 @@
 			</if>
 		</where>
 	</select>
+	
+	<insert id="insertUser">
+		INSERT INTO MST_USER(
+		    USER_ID
+		    , USER_NAME
+		    , CREATE_DATE
+		) VALUES(
+			#{userId}
+			, #{userName}
+			,now()
+		)
+	</insert>
+	
+	<delete id="deleteUser">
+		DELETE
+	    FROM 
+			MST_USER 
+		WHERE 
+			MST_USER.USER_ID = #{userId}
+	</delete>
 
 </mapper>
