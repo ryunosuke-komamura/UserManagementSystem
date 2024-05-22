@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>ユーザー登録変更画面</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<form th:object="${userForm}">
+			ユーザーID<input type="text" th:field="*{userId}" th:value="${userId}" th:errorclass="is-invalid">
+			<div class="invalid-feedback" th:errors="*{userId}"></div><br>
+			ユーザー名<input type="text" th:field="*{userName}" th:value="${userName}" th:errorclass="is-invalid">
+			<div class="invalid-feedback" th:errors="*{userName}"></div><br>
+            資格一覧
+            <div>
+                <table>
+                    <thead>			
+                        <th></th>
+                        <th>資格ID</th>
+                        <th>資格名</th>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item: ${userList}">				
+                            <td><input type="checkbox" name="userId" th:value="${item.userId}"></td>
+                            <td th:text="${item.userId}"></td>
+                            <td th:text="${item.userName}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div><br>
+			<input type="submit" formmethod="get" formaction="/user/search" value="戻る">
+			<input type="submit" formmethod="post" formaction="/user/confirmation" value="入力確認">
+		</form>
+	</div>
+</body>
+</html>
