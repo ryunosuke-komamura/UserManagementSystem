@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>menu</title>
+	<meta charset="UTF-8">
+	<title>menu</title>
 </head>
+
 <body>
-	<h1>menu</h1>	
-	<form method="get" th:action="@{/user/search}">
-		<button type="submit" name="user">ユーザー検索</button>
-	</form>
+	<h1>ユーザー管理システム</h1>
+
+<!--	<form method="get" th:action="@{/user/search}">-->
+<!--		<button type="submit" name="user">ユーザー検索</button>-->
+<!--	</form>-->
+
+<!--	<form method="get" th:action="@{/qualification/search}">-->
+<!--		<button type="submit" name="qualification">ユーザー検索</button>-->
+<!--	</form>-->
+	
+	<div style="margin-bottom: 20px;margin-top: 20px;">
+		<a href="/user/search">ユーザー検索</a>
+	</div>
+
+
+	<div style="margin-bottom: 20px;margin-top: 20px;">
+		<a href="/qualification/search">資格検索</a>
+	</div>
 </body>
+
 </html>
