@@ -53,16 +53,13 @@ public class QualificationConfirmationController {
 		
 		QualificationModel qualificationModel = new QualificationModel();
 
-		// 存在チェック
+		// 資格IDを格納
 		qualificationModel.setQualificationId(modelMapper.map(form, QualificationModel.class).getQualificationId());
 		
-		// formを個別modelに変換
-//		QualificationModel qualificationModel = modelMapper.map(form, QualificationModel.class);
-
-		// SearchServiceの実行
+		// 存在チェック
 		List<QualificationModel> qualificationList = qualificationSearchService.getQualification(qualificationModel);
 		
-		// 存在チェック
+		// 資格名を格納
 		qualificationModel.setQualificationName(modelMapper.map(form, QualificationModel.class).getQualificationName());
 		
 		// データ存在確認。
