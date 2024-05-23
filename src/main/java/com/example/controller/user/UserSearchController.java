@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.form.UserForm;
 import com.example.model.UserModel;
+import com.example.service.UserDeleteService;
 import com.example.service.UserSearchService;
 import com.example.util.UtilConst;
 
@@ -27,6 +28,9 @@ public class UserSearchController {
 	
 	@Autowired
 	private UserSearchService userSearchService;
+	
+	@Autowired
+	private UserDeleteService userDeleteService;
 
 	@GetMapping(UtilConst.MAPPING_PATH_SEARCH)
 	/** 画面遷移：ユーザー検索画面 */
@@ -70,7 +74,7 @@ public class UserSearchController {
 		UserModel userModel = modelMapper.map(form, UserModel.class);
 		
 		// SearchServiceの実行
-		userSearchService.deleteUser(userModel);
+		userDeleteService.deleteUser(userModel);
 		
 		// SearchServiceの実行
 		List<UserModel> userList = userSearchService.getUser(new UserModel());

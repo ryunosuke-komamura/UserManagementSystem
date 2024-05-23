@@ -40,4 +40,13 @@ public class UtilConst {
 	public static final String RESPONSE_PATH_QUALIFICATION_REGISTER = "qualification/qualificationRegister";
 	/** レスポンスパス　資格登録内容確認画面　qualification/qualificationConfirmation */
 	public static final String RESPONSE_PATH_QUALIFICATION_CONFIRMATION = "qualification/qualificationConfirmation";
+
+	// 編集モード
+	/** 編集モード 登録(0) */
+	public static int EDIT_MODE_INSERT = 0;
+
+	/** 編集モード 更新(1) */
+	public static int EDIT_MODE_UPDATE = 1;
+	
+
 }

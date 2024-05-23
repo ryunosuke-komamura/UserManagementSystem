@@ -23,11 +23,4 @@ public class UserSearchServiceImpl implements UserSearchService{
 	public List<UserModel> getUser(UserModel userModel) {
 		return userMapper.findUser(userModel);
 	}
-
-	/** ユーザー削除 */
-	public int deleteUser(UserModel userModel) {
-		userQualMapper.deleteUserQual(userModel);
-		
-		return userMapper.deleteUser(userModel);
-	}
 }

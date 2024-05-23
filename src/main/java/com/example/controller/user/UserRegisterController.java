@@ -32,6 +32,14 @@ public class UserRegisterController {
 	/** 画面遷移：ユーザー登録変更画面 */
 	public String getUserRegister(Model model ,@ModelAttribute @Validated UserForm form, BindingResult bindingResult) {
 		
+		// 内容確認画面から戻るボタンで戻ってきた時、変更モードだった場合はpostUserの方を実行
+		if(form.getEditMode() == UtilConst.EDIT_MODE_UPDATE) {
+			return postUserUpdate(model, form, bindingResult);
+		}
+		
+		//　編集モード登録(0)に設定
+		form.setEditMode(UtilConst.EDIT_MODE_INSERT);
+    
 		// formを個別modelに変換
 		UserModel userModel = modelMapper.map(form, UserModel.class);
 		
@@ -47,6 +55,9 @@ public class UserRegisterController {
 	@PostMapping(UtilConst.MAPPING_PATH_UPDATE)
 	/** 画面遷移：ユーザー登録変更画面 */
 	public String postUserUpdate(Model model ,@ModelAttribute @Validated UserForm form, BindingResult bindingResult) {
+
+		//　編集モード変更(1)に設定
+		form.setEditMode(UtilConst.EDIT_MODE_UPDATE);
 		
 		// formを個別modelに変換
 		UserModel userModel = modelMapper.map(form, UserModel.class);
