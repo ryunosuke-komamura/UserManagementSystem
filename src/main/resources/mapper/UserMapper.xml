@@ -24,12 +24,25 @@
 		    USER_ID
 		    , USER_NAME
 		    , CREATE_DATE
+		    , UPDATE_DATE
 		) VALUES(
 			#{userId}
 			, #{userName}
 			,now()
+			,now()
 		)
 	</insert>
+	
+	<update id="updateUser">
+		UPDATE  MST_USER
+		SET
+			<if test="userName != null and userName != ''">
+				USER_NAME = #{userName},
+			</if>
+			UPDATE_DATE = now()
+		WHERE   
+			USER_ID = #{userId}
+	</update>
 	
 	<delete id="deleteUser">
 		DELETE
