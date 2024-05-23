@@ -9,6 +9,11 @@ import lombok.Data;
 public class QualificationForm {
 
 	/**
+	 * No
+	 */
+	private String no;
+
+	/**
 	 * 資格ID
 	 */
 	@Length(min = 0, max = 6)

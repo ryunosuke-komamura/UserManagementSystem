@@ -6,7 +6,8 @@
 <mapper namespace="com.example.repository.QualificationMapper">
 	<select id="findQualification" resultType="QualificationModel">
 		SELECT
-			*
+			ROW_NUMBER() OVER(ORDER BY QUALIFICATION_ID ASC) AS No,
+			MST_QUALIFICATION.*
 		FROM
 			MST_QUALIFICATION
 		<where>
@@ -19,4 +20,32 @@
 		</where>
 	</select>
 
+	<insert id="insertQualification">
+		INSERT INTO MST_QUALIFICATION(
+		    QUALIFICATION_ID
+		    , QUALIFICATION_NAME
+		    , CREATE_DATE
+		) VALUES(
+			#{qualificationId}
+			, #{qualificationName}
+			,now()
+		)
+	</insert>
+
+	<update id="updateQualification">
+		UPDATE MST_QUALIFICATION
+		SET
+		    MST_QUALIFICATION.QUALIFICATION_NAME = #{qualificationName}
+		    , MST_QUALIFICATION.UPDATE_DATE = NOW()
+		WHERE
+			MST_QUALIFICATION.QUALIFICATION_ID = #{qualificationId}
+	</update>
+	
+	<delete id="deleteQualification">
+		DELETE
+	    FROM 
+			MST_QUALIFICATION 
+		WHERE 
+			MST_QUALIFICATION.QUALIFICATION_ID = #{qualificationId}
+	</delete>
 </mapper>

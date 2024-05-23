@@ -4,7 +4,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>資格登録変更画面</title>
+	<title>資格登録内容確認画面</title>
 </head>
 
 <body>
@@ -14,9 +14,8 @@
 			<div class="invalid-feedback" th:errors="*{qualificationId}"></div><br>
 			資格名<input type="text" th:field="*{qualificationName}" th:value="${qualificationName}" th:errorclass="is-invalid">
 			<div class="invalid-feedback" th:errors="*{qualificationName}"></div><br>
-			<input type="submit" formmethod="get" formaction="/qualification/search" value="戻る">
-			<input type="submit" formmethod="post" formaction="/qualification/confirmation" value="入力確認">
-		</form>
+			<input type="submit" formmethod="post" formaction="/qualification/update" value="戻る">
+			<input type="submit" formmethod="post" formaction="/qualification/execution" value="登録">
 	</div>
 </body>
 

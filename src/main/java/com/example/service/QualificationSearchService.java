@@ -6,6 +6,15 @@ import com.example.model.QualificationModel;
 
 public interface QualificationSearchService {
 
-	/** ユーザーテーブル検索 */
+	/** 資格マスタ検索 */
 	public List<QualificationModel> getQualification(QualificationModel qualificationModel);
+
+	/** 資格マスタ登録 */
+	public int insertQualification(QualificationModel qualificationModel);
+
+	/** 資格マスタ更新 */
+	public int updateQualification(QualificationModel qualificationModel);
+	
+	/** 資格マスタ削除 */
+	public int deleteQualification(QualificationModel qualificationModel);
 }

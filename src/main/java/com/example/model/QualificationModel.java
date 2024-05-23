@@ -6,6 +6,10 @@ import lombok.Data;
 public class QualificationModel {
 
 	/**
+	 * No
+	 */
+	private String no;
+	/**
 	 * 資格ID
 	 */
 	private String qualificationId;

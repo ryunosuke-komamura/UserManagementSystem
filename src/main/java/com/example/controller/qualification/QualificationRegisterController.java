@@ -20,65 +20,48 @@ import com.example.util.UtilConst;
 
 @Controller
 @RequestMapping(UtilConst.MAPPING_PATH_QUALIFICATION)
-public class QualificationSearchController {
-
+public class QualificationRegisterController {
+	
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
 	@Autowired
 	private QualificationSearchService qualificationSearchService;
 
-	@GetMapping(UtilConst.MAPPING_PATH_SEARCH)
-	/** 画面遷移：資格検索画面 */
-	public String getQualificationSearch(Model model, @ModelAttribute @Validated QualificationForm form, BindingResult bindingResult) {
-		//qualificationSearch.htmlに遷移
-		return UtilConst.RESPONSE_PATH_QUALIFICATION_SEARCH;
-	}
-
-	@PostMapping(UtilConst.MAPPING_PATH_SEARCH)
-	/** 機能：ユーザー検索ボタン */
-	public String postQualificationSearch(Model model, @ModelAttribute @Validated QualificationForm form,
-			BindingResult bindingResult) {
-
-		if (bindingResult.hasErrors()) {
-
-			// バリデーションチェックエラー後の遷移先
-			return UtilConst.RESPONSE_PATH_QUALIFICATION_SEARCH;
-		}
-
+	@GetMapping(UtilConst.MAPPING_PATH_REGISTER)
+	/** 画面遷移：資格登録変更画面 */
+	public String getQualificationRegister(Model model ,@ModelAttribute @Validated QualificationForm form, BindingResult bindingResult) {
+		
 		// formを個別modelに変換
 		QualificationModel qualificationModel = modelMapper.map(form, QualificationModel.class);
-
+		
 		// SearchServiceの実行
 		List<QualificationModel> qualificationList = qualificationSearchService.getQualification(qualificationModel);
 
 		model.addAttribute("qualificationList", qualificationList);
-
-		return UtilConst.RESPONSE_PATH_QUALIFICATION_SEARCH;
-	}
-
-	@PostMapping(UtilConst.MAPPING_PATH_DELETE)
-	/** 機能：削除ボタン */
-	public String postQualificationDelete(Model model ,@ModelAttribute @Validated QualificationForm form, BindingResult bindingResult) {
 		
-		if(bindingResult.hasErrors()) {
-
-			// バリデーションチェックエラー後の遷移先
-			return UtilConst.RESPONSE_PATH_QUALIFICATION_SEARCH;
-		}
+		//userRegister.htmlに遷移
+		return UtilConst.RESPONSE_PATH_QUALIFICATION_REGISTER;
+	}
+	
+	@PostMapping(UtilConst.MAPPING_PATH_UPDATE)
+	/** 画面遷移：ユーザー登録変更画面 */
+	public String postQualificationUpdate(Model model ,@ModelAttribute @Validated QualificationForm form, BindingResult bindingResult) {
 		
 		// formを個別modelに変換
 		QualificationModel qualificationModel = modelMapper.map(form, QualificationModel.class);
 		
 		// SearchServiceの実行
-		qualificationSearchService.deleteQualification(qualificationModel);
-		
-		// SearchServiceの実行
 		List<QualificationModel> qualificationList = qualificationSearchService.getQualification(qualificationModel);
-
-		model.addAttribute("qualificationList",qualificationList);
-
-		return UtilConst.RESPONSE_PATH_QUALIFICATION_SEARCH;
+		
+		if(!qualificationList.isEmpty()) {
+			form.setQualificationId(qualificationList.get(0).getQualificationId());
+			form.setQualificationName(qualificationList.get(0).getQualificationName());
+			model.addAttribute("qualificationList", qualificationList);
+		}
+		
+		//userRegister.htmlに遷移
+		return UtilConst.RESPONSE_PATH_QUALIFICATION_REGISTER;
 	}
 
 }

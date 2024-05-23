@@ -19,4 +19,20 @@ public class QualificationSearchServiceImpl implements QualificationSearchServic
 	public List<QualificationModel> getQualification(QualificationModel qualificationModel) {
 		return mapper.findQualification(qualificationModel);
 	}
+
+	@Override
+	public int insertQualification(QualificationModel qualificationModel) {
+		return mapper.insertQualification(qualificationModel);
+	}
+
+	@Override
+	public int updateQualification(QualificationModel qualificationModel) {
+		return mapper.updateQualification(qualificationModel);
+	}
+
+	/** ユーザー削除 */
+	public int deleteQualification(QualificationModel qualificationModel) {
+		return mapper.deleteQualification(qualificationModel);
+	}
+
 }
