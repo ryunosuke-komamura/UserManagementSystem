@@ -4,7 +4,6 @@
 
 <!-- Mapperとxmlのマッピング -->
 <mapper namespace="com.example.repository.UserQualMapper">
-	
 	<insert id="insertUser">
 		INSERT INTO RELA_USER_QUALIFICATION(
 		    USER_ID
@@ -18,7 +17,7 @@
 			,now()
 		)
 	</insert>
-	
+  
 	<delete id="deleteUserQual">
 		DELETE RELA_USER_QUALIFICATION
 	    FROM 

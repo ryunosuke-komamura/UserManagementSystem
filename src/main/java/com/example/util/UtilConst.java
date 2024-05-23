@@ -8,7 +8,7 @@ public class UtilConst {
 	/** マッピングパス　/user */
 	public static final String MAPPING_PATH_USER = "/user";
 	/** マッピングパス　/qualification */
-	public static final String MAPPING_PATH_QUALIFICATION = "/user";
+	public static final String MAPPING_PATH_QUALIFICATION = "/qualification";
 	
 	/** マッピングパス　検索　/search */
 	public static final String MAPPING_PATH_SEARCH = "/search";

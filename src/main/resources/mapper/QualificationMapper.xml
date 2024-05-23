@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="com.example.repository.QualificationMapper">
+	<select id="findQualification" resultType="QualificationModel">
+		SELECT
+			ROW_NUMBER() OVER(ORDER BY QUALIFICATION_ID ASC) AS No,
+			MST_QUALIFICATION.*
+		FROM
+			MST_QUALIFICATION
+		<where>
+			<if test="qualificationId != null and qualificationId != '' ">
+				QUALIFICATION_ID = #{qualificationId}
+			</if>
+			<if test="qualificationName != null and qualificationName != ''">
+				AND QUALIFICATION_NAME = #{qualificationName}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertQualification">
+		INSERT INTO MST_QUALIFICATION(
+		    QUALIFICATION_ID
+		    , QUALIFICATION_NAME
+		    , CREATE_DATE
+		) VALUES(
+			#{qualificationId}
+			, #{qualificationName}
+			,now()
+		)
+	</insert>
+
+	<update id="updateQualification">
+		UPDATE MST_QUALIFICATION
+		SET
+		    MST_QUALIFICATION.QUALIFICATION_NAME = #{qualificationName}
+		    , MST_QUALIFICATION.UPDATE_DATE = NOW()
+		WHERE
+			MST_QUALIFICATION.QUALIFICATION_ID = #{qualificationId}
+	</update>
+	
+	<delete id="deleteQualification">
+		DELETE
+	    FROM 
+			MST_QUALIFICATION 
+		WHERE 
+			MST_QUALIFICATION.QUALIFICATION_ID = #{qualificationId}
+	</delete>
+</mapper>

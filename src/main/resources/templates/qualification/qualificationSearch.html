@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>資格検索画面</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<form method="get" action="/qualification/register">
+			<input type="submit" value="新規作成">
+		</form>
+		<form method="post" action="/qualification/search" th:object="${qualificationForm}">
+			資格ID<input type="text" th:field="*{qualificationId}" th:errorclass="is-invalid">
+			<div class="invalid-feedback" th:errors="*{qualificationId}"></div>
+			資格名<input type="text" th:field="*{qualificationName}" th:errorclass="is-invalid">
+			<div class="invalid-feedback" th:errors="*{qualificationName}"></div><br>
+
+			<input type="submit" value="検索">
+		</form>
+		<div th:if="${qualificationList} != null">
+			検索結果
+			<div>
+				<form th:object="${qualificationForm}">
+					<input value="変更" type="submit" formmethod="post" formaction="/qualification/update">
+					<input value="削除" type="submit" formmethod="post" formaction="/qualification/delete">
+					<table border="1">
+						<thead>
+							<th>選択</th>
+							<th>No</th>
+							<th>資格ID</th>
+							<th>資格名</th>
+						</thead>
+						<tbody>
+							<tr th:each="item: ${qualificationList}">
+								<td><input type="radio" name="qualificationId" th:field="*{qualificationId}"
+									th:value="${item.qualificationId}"></td>
+								<td th:text="${item.no}"></td>
+								<td th:text="${item.qualificationId}"></td>
+								<td th:text="${item.qualificationName}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</div>
+		</div>
+		<form method="get" action="/menu">
+			<input type="submit" value="戻る">
+		</form>
+	</div>
+</body>
+
+</html>

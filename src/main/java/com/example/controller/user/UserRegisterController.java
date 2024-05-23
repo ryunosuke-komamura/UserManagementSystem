@@ -39,7 +39,7 @@ public class UserRegisterController {
 		
 		//　編集モード登録(0)に設定
 		form.setEditMode(UtilConst.EDIT_MODE_INSERT);
-		
+    
 		// formを個別modelに変換
 		UserModel userModel = modelMapper.map(form, UserModel.class);
 		
