@@ -7,6 +7,12 @@ import lombok.Data;
 
 @Data
 public class UserForm {
+	
+	/**
+	 * 編集モード
+	 * 登録(0)：変更(1)
+	 */
+	private int editMode;
 
 	/**
 	 * ユーザーID
@@ -17,6 +23,7 @@ public class UserForm {
 	/**
 	 * ユーザー名
 	 */
+	@Length(min = 0, max = 10)
 	private String userName;
 	
 	/**
