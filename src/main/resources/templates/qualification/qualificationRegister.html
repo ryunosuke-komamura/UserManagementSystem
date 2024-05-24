@@ -10,10 +10,13 @@
 <body>
 	<div layout:fragment="content">
 		<form th:object="${qualificationForm}">
-			資格ID<input type="text" th:field="*{qualificationId}" th:value="${qualificationId}" th:errorclass="is-invalid">
+			資格ID<input type="text" th:field="*{qualificationId}" th:value="${qualificationId}" th:disabled="*{editMode == 1}" th:errorclass="is-invalid">
 			<div class="invalid-feedback" th:errors="*{qualificationId}"></div><br>
 			資格名<input type="text" th:field="*{qualificationName}" th:value="${qualificationName}" th:errorclass="is-invalid">
 			<div class="invalid-feedback" th:errors="*{qualificationName}"></div><br>
+			<input type="text" th:field="*{qualificationId} "th:value="${qualificationId}" hidden>
+			<input type="text" th:field="*{qualificationName} "th:value="${qualificationName}" hidden>
+			<input type="text" th:field="*{editMode} "th:value="${editMode}" hidden>
 			<input type="submit" formmethod="get" formaction="/qualification/search" value="戻る">
 			<input type="submit" formmethod="post" formaction="/qualification/confirmation" value="入力確認">
 		</form>

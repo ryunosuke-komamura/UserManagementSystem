@@ -1,5 +1,6 @@
 package com.example.controller.qualification;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -17,6 +18,8 @@ import com.example.model.QualificationModel;
 import com.example.service.QualificationSearchService;
 import com.example.util.UtilConst;
 
+import io.micrometer.common.util.StringUtils;
+
 @Controller
 @RequestMapping(UtilConst.MAPPING_PATH_QUALIFICATION)
 public class QualificationConfirmationController {
@@ -31,6 +34,23 @@ public class QualificationConfirmationController {
 	/** 画面遷移：資格登録変更画面 */
 	public String postQualificationConfirmation(Model model ,@ModelAttribute @Validated QualificationForm form, BindingResult bindingResult) {
 		
+		List<String> errorMsg = new ArrayList<String>();
+		// バリデーションチェック
+		// 必須チェック
+		if(StringUtils.isBlank(form.getQualificationId())) {
+			errorMsg.add("資格IDは必須です。");
+		}
+
+		// 必須チェック
+		if(form.getQualificationName().isEmpty()) {
+			errorMsg.add("資格名は必須です。");
+		}
+		
+		// エラー確認
+		if(!errorMsg.isEmpty()) {
+			return UtilConst.RESPONSE_PATH_QUALIFICATION_REGISTER;
+		}
+
 		// formを個別modelに変換
 		QualificationModel qualificationModel = modelMapper.map(form, QualificationModel.class);
 		
@@ -49,7 +69,7 @@ public class QualificationConfirmationController {
 
 	@PostMapping(UtilConst.MAPPING_PATH_EXECUTION)
 	/** 資格登録・更新 */
-	public String getQualificationRegister(Model model ,@ModelAttribute @Validated QualificationForm form, BindingResult bindingResult) {
+	public String postQualificationRegister(Model model ,@ModelAttribute @Validated QualificationForm form, BindingResult bindingResult) {
 		
 		QualificationModel qualificationModel = new QualificationModel();
 

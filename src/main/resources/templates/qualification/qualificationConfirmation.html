@@ -10,12 +10,16 @@
 <body>
 	<div layout:fragment="content">
 		<form th:object="${qualificationForm}">
-			資格ID<input type="text" th:field="*{qualificationId}" th:value="${qualificationId}" th:errorclass="is-invalid">
-			<div class="invalid-feedback" th:errors="*{qualificationId}"></div><br>
-			資格名<input type="text" th:field="*{qualificationName}" th:value="${qualificationName}" th:errorclass="is-invalid">
-			<div class="invalid-feedback" th:errors="*{qualificationName}"></div><br>
-			<input type="submit" formmethod="post" formaction="/qualification/update" value="戻る">
-			<input type="submit" formmethod="post" formaction="/qualification/execution" value="登録">
+			資格ID <label th:field="*{qualificationId}" th:text="*{qualificationId}" ></label><br>
+			資格名 <label th:field="*{qualificationName}" th:text="*{qualificationName}" ></label><br>
+			<input type="text" th:field="*{qualificationId} "th:value="${qualificationId}" hidden>
+			<input type="text" th:field="*{qualificationName} "th:value="${qualificationName}" hidden>
+			<input type="text" th:field="*{editMode} "th:value="${editMode}" hidden>
+			<input type="submit" formmethod="post" formaction="/qualification/register" value="戻る"
+				onclick="undisabled()">
+			<input type="submit" formmethod="post" formaction="/qualification/execution" value="登録"
+				onclick="undisabled()">
+		</form>
 	</div>
 </body>
 

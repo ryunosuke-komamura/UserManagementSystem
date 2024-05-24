@@ -31,6 +31,9 @@ public class QualificationSearchController {
 	@GetMapping(UtilConst.MAPPING_PATH_SEARCH)
 	/** 画面遷移：資格検索画面 */
 	public String getQualificationSearch(Model model, @ModelAttribute @Validated QualificationForm form, BindingResult bindingResult) {
+
+		form.setQualificationId(null);
+		form.setQualificationName(null);
 		//qualificationSearch.htmlに遷移
 		return UtilConst.RESPONSE_PATH_QUALIFICATION_SEARCH;
 	}
