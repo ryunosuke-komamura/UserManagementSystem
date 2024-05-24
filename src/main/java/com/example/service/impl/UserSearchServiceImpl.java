@@ -21,6 +21,12 @@ public class UserSearchServiceImpl implements UserSearchService{
 	
 	/** ユーザーテーブル検索 */
 	public List<UserModel> getUser(UserModel userModel) {
-		return userMapper.findUser(userModel);
+		List<UserModel> userList = userMapper.findUser(userModel);
+		
+		List<String> qualificationIds = userQualMapper.findUserQual(userModel);
+		
+		userList.get(0).setQualificationIds(qualificationIds);
+		
+		return userList;
 	}
 }

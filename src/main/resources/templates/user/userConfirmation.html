@@ -9,7 +9,9 @@
 <body>
 	<div layout:fragment="content">
 		<form th:object="${userForm}">
-			ユーザーID <label th:text="*{userId}" ></label><br>
+		    <div th:if="*{editMode} != 0">
+			    ユーザーID <label th:text="*{userId}" ></label><br>
+            </div>  
 			ユーザー名 <label th:text="*{userName}" ></label><br>
             <div th:if="*{qualificationIds} != null">
                 資格一覧
@@ -33,7 +35,7 @@
 			<input type="hidden" th:field="*{userId}" th:value="${userId}">
 			<input type="hidden" th:field="*{userName}" th:value="${userName}">
 			<input type="hidden" th:field="*{qualificationIds}" th:value="${qualificationIds}">
-			<input type="submit" formmethod="get" formaction="/user/userRegister" value="戻る">
+			<input type="submit" formmethod="get" formaction="/user/register" value="戻る">
 			<input type="submit" formmethod="post" formaction="/user/execution" value="登録">
 		</form>
 	</div>

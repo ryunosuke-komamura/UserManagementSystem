@@ -50,6 +50,7 @@ public class UserConfirmationController {
 		// formを個別modelに変換
 		UserModel userModel = modelMapper.map(form, UserModel.class);
 		try {
+			// 編集モードによって実行Serviceの変更
 			if(form.getEditMode() == UtilConst.EDIT_MODE_INSERT) {
 				
 				userExecutionService.insertUser(userModel);
@@ -57,12 +58,15 @@ public class UserConfirmationController {
 			}else {
 				userExecutionService.updateUser(userModel);
 			}
-		}catch(Exception err) {
+		}catch(IllegalArgumentException err) {
 			//userConfirmation.htmlに遷移
 			return UtilConst.RESPONSE_PATH_USER_CONFIRMATION;
 		}
+
+		form.setUserId("");
+		form.setUserName("");
 		
-		//userConfirmation.htmlに遷移
+		//userSearch.htmlに遷移
 		return UtilConst.RESPONSE_PATH_USER_SEARCH;
 	}
 	
@@ -71,10 +75,12 @@ public class UserConfirmationController {
 		
 		// formを個別modelに変換
 		UserModel userModel = modelMapper.map(form, UserModel.class);
-		if(userModel.getQualificationIds()==null) {
+		// 送信パラメータに資格ID一覧が無ければ終了
+		if(userModel.getQualificationIds() == null) {
 			return;
 		}
 		
+		// 資格ID一覧から名称取得
 		List<QualificationModel> qualificationList = new ArrayList<QualificationModel>();
 		for(String qualificationId : userModel.getQualificationIds()) {
 			QualificationModel searchQualificationModel =new QualificationModel();

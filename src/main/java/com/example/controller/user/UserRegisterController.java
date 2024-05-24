@@ -1,5 +1,6 @@
 package com.example.controller.user;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.form.UserForm;
+import com.example.form.UserQualForm;
 import com.example.model.QualificationModel;
 import com.example.model.UserModel;
 import com.example.service.QualificationSearchService;
@@ -44,7 +46,8 @@ public class UserRegisterController {
 		
 		//　編集モード登録(0)に設定
 		form.setEditMode(UtilConst.EDIT_MODE_INSERT);
-		
+
+		// 資格一覧の検索実行
 		getQualificationList(model);
 		
 		//userRegister.htmlに遷移
@@ -63,25 +66,48 @@ public class UserRegisterController {
 		
 		// SearchServiceの実行
 		List<UserModel> userList = userSearchService.getUser(userModel);
+		// 資格一覧の検索実行
+		List<UserQualForm> userQualFormList = getQualificationList(model);
 		
 		if(!userList.isEmpty()) {
 			form.setUserId(userList.get(0).getUserId());
 			form.setUserName(userList.get(0).getUserName());
-			model.addAttribute("userList",userList);
-		}
+			form.setQualificationIds(userList.get(0).getQualificationIds());
 
-		getQualificationList(model);
+			for(String searchQualification :userList.get(0).getQualificationIds()) {
+				for(UserQualForm userQualForm: userQualFormList) {
+					if(userQualForm.getQualificationId().equals(searchQualification)) {
+						userQualForm.setSelectQualification(true);
+						break;
+					}
+				}
+			}
+			model.addAttribute("userQualFormList",userQualFormList);
+		}
 		
 		//userRegister.htmlに遷移
 		return UtilConst.RESPONSE_PATH_USER_REGISTER;
 	}
 	
 	/** 資格一覧の検索実行 */
-	private void getQualificationList(Model model) {
+	private List<UserQualForm> getQualificationList(Model model) {
 		// 資格一覧の検索実行
 		List<QualificationModel> qualificationList = qualificationSearchService.getQualification(new QualificationModel());
+
+		List<UserQualForm> userQualFormList = new ArrayList<UserQualForm>();
 		
-		model.addAttribute("qualificationList",qualificationList);
+		for(QualificationModel qualification: qualificationList) {
+			UserQualForm userQualForm = new UserQualForm();
+			userQualForm.setSelectQualification(false);
+			userQualForm.setNo(qualification.getNo());
+			userQualForm.setQualificationId(qualification.getQualificationId());
+			userQualForm.setQualificationName(qualification.getQualificationName());
+			userQualFormList.add(userQualForm);
+		}
+		
+		model.addAttribute("userQualFormList",userQualFormList);
+		
+		return userQualFormList;
 	}
 
 }

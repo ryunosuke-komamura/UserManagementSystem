@@ -9,8 +9,11 @@
 <body>
 	<div layout:fragment="content">
 		<form th:object="${userForm}">
-			ユーザーID<input type="text" th:field="*{userId}" th:value="${userId}" th:errorclass="is-invalid">
-			<div class="invalid-feedback" th:errors="*{userId}"></div><br>
+		    <div th:if="*{editMode} != 0">
+                ユーザーID<input type="text" th:field="*{userId}" 
+                    th:value="${userId}" th:errorclass="is-invalid" th:disabled="*{editMode} == 1">
+                <div class="invalid-feedback" th:errors="*{userId}"></div><br>
+            </div>  
 			ユーザー名<input type="text" th:field="*{userName}" th:value="${userName}" th:errorclass="is-invalid">
 			<div class="invalid-feedback" th:errors="*{userName}"></div><br>
             資格一覧
@@ -22,8 +25,10 @@
                         <th>資格名</th>
                     </thead>
                     <tbody>
-                        <tr th:each="item: ${qualificationList}">				
-                            <td><input type="checkbox" name="qualificationIds" th:value="${item.qualificationId}"></td>
+                        <tr th:each="item: ${userQualFormList}">				
+                            <td><input type="checkbox" name="qualificationIds"
+                                 th:value="${item.qualificationId}"
+                                 th:checked="${item.selectQualification}"></td>
                             <td th:text="${item.qualificationId}"></td>
                             <td th:text="${item.qualificationName}"></td>
                         </tr>
