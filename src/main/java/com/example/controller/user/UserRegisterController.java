@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.form.UserForm;
+import com.example.model.QualificationModel;
 import com.example.model.UserModel;
+import com.example.service.QualificationSearchService;
 import com.example.service.UserSearchService;
 import com.example.util.UtilConst;
 
@@ -28,6 +30,9 @@ public class UserRegisterController {
 	@Autowired
 	private UserSearchService userSearchService;
 
+	@Autowired
+	private QualificationSearchService qualificationSearchService;
+
 	@GetMapping(UtilConst.MAPPING_PATH_REGISTER)
 	/** 画面遷移：ユーザー登録変更画面 */
 	public String getUserRegister(Model model ,@ModelAttribute @Validated UserForm form, BindingResult bindingResult) {
@@ -39,14 +44,8 @@ public class UserRegisterController {
 		
 		//　編集モード登録(0)に設定
 		form.setEditMode(UtilConst.EDIT_MODE_INSERT);
-    
-		// formを個別modelに変換
-		UserModel userModel = modelMapper.map(form, UserModel.class);
 		
-		// SearchServiceの実行
-		List<UserModel> userList = userSearchService.getUser(userModel);
-		
-		model.addAttribute("userList",userList);
+		getQualificationList(model);
 		
 		//userRegister.htmlに遷移
 		return UtilConst.RESPONSE_PATH_USER_REGISTER;
@@ -70,9 +69,19 @@ public class UserRegisterController {
 			form.setUserName(userList.get(0).getUserName());
 			model.addAttribute("userList",userList);
 		}
+
+		getQualificationList(model);
 		
 		//userRegister.htmlに遷移
 		return UtilConst.RESPONSE_PATH_USER_REGISTER;
+	}
+	
+	/** 資格一覧の検索実行 */
+	private void getQualificationList(Model model) {
+		// 資格一覧の検索実行
+		List<QualificationModel> qualificationList = qualificationSearchService.getQualification(new QualificationModel());
+		
+		model.addAttribute("qualificationList",qualificationList);
 	}
 
 }

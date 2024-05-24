@@ -22,14 +22,15 @@
                         <th>資格名</th>
                     </thead>
                     <tbody>
-                        <tr th:each="item: ${userList}">				
-                            <td><input type="checkbox" name="userId" th:value="${item.userId}"></td>
-                            <td th:text="${item.userId}"></td>
-                            <td th:text="${item.userName}"></td>
+                        <tr th:each="item: ${qualificationList}">				
+                            <td><input type="checkbox" name="qualificationIds" th:value="${item.qualificationId}"></td>
+                            <td th:text="${item.qualificationId}"></td>
+                            <td th:text="${item.qualificationName}"></td>
                         </tr>
                     </tbody>
                 </table>
             </div><br>
+			<input type="hidden" th:field="*{editMode}" th:value="${editMode}">
 			<input type="submit" formmethod="get" formaction="/user/search" value="戻る">
 			<input type="submit" formmethod="post" formaction="/user/confirmation" value="入力確認">
 		</form>
