@@ -1,6 +1,8 @@
 
 package com.example.form;
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.Length;
 
 import lombok.Data;
@@ -25,10 +27,10 @@ public class UserForm {
 	 */
 	@Length(min = 0, max = 10)
 	private String userName;
-	
+
 	/**
 	 * 資格リスト
 	 */
-	//private List<> qualificationList;
+	private List<String> qualificationIds;
 	
 }

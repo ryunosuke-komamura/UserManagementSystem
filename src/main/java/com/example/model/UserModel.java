@@ -1,5 +1,7 @@
 package com.example.model;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -19,9 +21,9 @@ public class UserModel {
 	 * パスワード
 	 */
 	private String password;
-
+	
 	/**
 	 * 資格リスト
 	 */
-	//private List<> qualificationList;
+	private List<String> qualificationIds;
 }
