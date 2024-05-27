@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
 
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
@@ -15,11 +16,17 @@ public class UserForm {
 	 * 登録(0)：変更(1)
 	 */
 	private int editMode;
+	
+	/**
+	 * No
+	 */
+	private String no;
 
 	/**
 	 * ユーザーID
 	 */
 	@Length(min = 0, max = 6)
+	@Pattern(regexp="^[0-9a-zA-Z]{0,6}+$")
 	private String userId;
 	
 	/**

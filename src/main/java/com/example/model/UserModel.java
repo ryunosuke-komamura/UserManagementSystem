@@ -6,6 +6,11 @@ import lombok.Data;
 
 @Data
 public class UserModel {
+	
+	/**
+	 * No
+	 */
+	private String no;
 
 	/**
 	 * ユーザーID
