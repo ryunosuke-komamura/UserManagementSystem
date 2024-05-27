@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.form.UserForm;
+import com.example.form.UserQualForm;
 import com.example.model.QualificationModel;
 import com.example.model.UserModel;
 import com.example.service.QualificationSearchService;
@@ -36,6 +37,22 @@ public class UserConfirmationController {
 	@PostMapping(UtilConst.MAPPING_PATH_CONFIRMATION)
 	/** 画面遷移：ユーザー登録内容確認画面 */
 	public String getUserConfirmation(Model model ,@ModelAttribute @Validated UserForm form, BindingResult bindingResult) {
+
+		List<String> errorMsg = new ArrayList<String>();
+		// バリデーションチェック
+		// 必須チェック
+		if(form.getUserName().isEmpty()) {
+			errorMsg.add("ユーザー名は必須です。");
+		}
+		
+		// エラー確認
+		if(!errorMsg.isEmpty()) {
+			
+			model.addAttribute("message",errorMsg);
+			// 資格一覧の検索実行
+			getUserQualFormList(model);
+			return UtilConst.RESPONSE_PATH_USER_REGISTER;
+		}
 		
 		// 登録変更画面で選択した資格一覧の名称取得
 		getQualificationList(model, form);
@@ -65,12 +82,12 @@ public class UserConfirmationController {
 
 		form.setUserId("");
 		form.setUserName("");
-		
+		model.addAttribute("message","登録完了しました");
 		//userSearch.htmlに遷移
 		return UtilConst.RESPONSE_PATH_USER_SEARCH;
 	}
 	
-	/** 資格一覧の検索実行 */
+	/** 資格一覧の名称検索実行 */
 	private void getQualificationList(Model model, UserForm form) {
 		
 		// formを個別modelに変換
@@ -83,7 +100,7 @@ public class UserConfirmationController {
 		// 資格ID一覧から名称取得
 		List<QualificationModel> qualificationList = new ArrayList<QualificationModel>();
 		for(String qualificationId : userModel.getQualificationIds()) {
-			QualificationModel searchQualificationModel =new QualificationModel();
+			QualificationModel searchQualificationModel = new QualificationModel();
 			searchQualificationModel.setQualificationId(qualificationId);
 			
 			// 資格一覧の検索実行
@@ -93,5 +110,27 @@ public class UserConfirmationController {
 		
 		model.addAttribute("qualificationList",qualificationList);
 	}
+	
+	/** 資格一覧選択状況の検索実行 */
+	private List<UserQualForm> getUserQualFormList(Model model) {
+		// 資格一覧の検索実行
+		List<QualificationModel> qualificationList = qualificationSearchService.getQualification(new QualificationModel());
+
+		List<UserQualForm> userQualFormList = new ArrayList<UserQualForm>();
+		
+		for(QualificationModel qualification: qualificationList) {
+			UserQualForm userQualForm = new UserQualForm();
+			userQualForm.setSelectQualification(false);
+			userQualForm.setNo(qualification.getNo());
+			userQualForm.setQualificationId(qualification.getQualificationId());
+			userQualForm.setQualificationName(qualification.getQualificationName());
+			userQualFormList.add(userQualForm);
+		}
+		
+		model.addAttribute("userQualFormList",userQualFormList);
+		
+		return userQualFormList;
+	}
+
 
 }

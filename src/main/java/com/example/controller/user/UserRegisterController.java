@@ -22,6 +22,8 @@ import com.example.service.QualificationSearchService;
 import com.example.service.UserSearchService;
 import com.example.util.UtilConst;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping(UtilConst.MAPPING_PATH_USER)
 public class UserRegisterController {
@@ -34,6 +36,16 @@ public class UserRegisterController {
 
 	@Autowired
 	private QualificationSearchService qualificationSearchService;
+	
+	 // HttpSession型のフィールドを定義する
+   private HttpSession session;
+
+   // コンストラクタを作成し、@Autowiredアノテーションを付与する
+   @Autowired
+   public UserRegisterController(HttpSession session) {
+       // フィールドに代入する
+       this.session = session;
+   }
 
 	@GetMapping(UtilConst.MAPPING_PATH_REGISTER)
 	/** 画面遷移：ユーザー登録変更画面 */
@@ -48,7 +60,7 @@ public class UserRegisterController {
 		form.setEditMode(UtilConst.EDIT_MODE_INSERT);
 
 		// 資格一覧の検索実行
-		getQualificationList(model);
+		getUserQualFormList(model);
 		
 		//userRegister.htmlに遷移
 		return UtilConst.RESPONSE_PATH_USER_REGISTER;
@@ -58,16 +70,32 @@ public class UserRegisterController {
 	/** 画面遷移：ユーザー登録変更画面 */
 	public String postUserUpdate(Model model ,@ModelAttribute @Validated UserForm form, BindingResult bindingResult) {
 
-		//　編集モード変更(1)に設定
-		form.setEditMode(UtilConst.EDIT_MODE_UPDATE);
-		
 		// formを個別modelに変換
 		UserModel userModel = modelMapper.map(form, UserModel.class);
+
+		List<String> errorMsg = new ArrayList<String>();
+		// バリデーションチェック
+		// 必須チェック
+		if(userModel.getUserId() == null) {
+			errorMsg.add("ユーザーを選択してください。");
+		}
+		
+		// エラー確認
+		if(!errorMsg.isEmpty()) {
+			UserModel serchCondition = (UserModel)session.getAttribute("serchCondition");
+			List<UserModel> userList = userSearchService.getUser(serchCondition);
+			model.addAttribute("userList",userList);
+			model.addAttribute("message",errorMsg);
+			return UtilConst.RESPONSE_PATH_USER_SEARCH;
+		}
+
+		//　編集モード変更(1)に設定
+		form.setEditMode(UtilConst.EDIT_MODE_UPDATE);
 		
 		// SearchServiceの実行
 		List<UserModel> userList = userSearchService.getUser(userModel);
 		// 資格一覧の検索実行
-		List<UserQualForm> userQualFormList = getQualificationList(model);
+		List<UserQualForm> userQualFormList = getUserQualFormList(model);
 		
 		if(!userList.isEmpty()) {
 			form.setUserId(userList.get(0).getUserId());
@@ -90,7 +118,7 @@ public class UserRegisterController {
 	}
 	
 	/** 資格一覧の検索実行 */
-	private List<UserQualForm> getQualificationList(Model model) {
+	private List<UserQualForm> getUserQualFormList(Model model) {
 		// 資格一覧の検索実行
 		List<QualificationModel> qualificationList = qualificationSearchService.getQualification(new QualificationModel());
 

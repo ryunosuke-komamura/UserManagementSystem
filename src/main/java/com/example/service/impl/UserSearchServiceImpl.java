@@ -23,10 +23,12 @@ public class UserSearchServiceImpl implements UserSearchService{
 	public List<UserModel> getUser(UserModel userModel) {
 		List<UserModel> userList = userMapper.findUser(userModel);
 		
-		List<String> qualificationIds = userQualMapper.findUserQual(userModel);
-		
-		userList.get(0).setQualificationIds(qualificationIds);
-		
+		if(userList.size() > 0) {
+			// ユーザーに紐づく資格一覧の検索
+			List<String> qualificationIds = userQualMapper.findUserQual(userModel);
+			
+			userList.get(0).setQualificationIds(qualificationIds);
+		}
 		return userList;
 	}
 }
