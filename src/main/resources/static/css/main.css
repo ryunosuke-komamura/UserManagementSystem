@@ -1,1 +1,8 @@
 @charset "UTF-8";
+
+th {
+	border-style: solid; 
+}
+td {
+	border-style: solid; 
+}
