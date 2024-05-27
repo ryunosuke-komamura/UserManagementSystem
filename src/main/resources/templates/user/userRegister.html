@@ -9,18 +9,22 @@
 <body>
 	<div layout:fragment="content">
 		<form th:object="${userForm}">
+			<div th:each="item:	${message}">
+				<label th:text="${item}" ></label>
+			</div>
 		    <div th:if="*{editMode} != 0">
                 ユーザーID<input type="text" th:field="*{userId}" 
-                    th:value="${userId}" th:errorclass="is-invalid" th:disabled="*{editMode} == 1">
+                    th:value="${userId}" th:errorclass="is-invalid" th:disabled="*{editMode} == 1" maxlength="6">
                 <div class="invalid-feedback" th:errors="*{userId}"></div><br>
             </div>  
-			ユーザー名<input type="text" th:field="*{userName}" th:value="${userName}" th:errorclass="is-invalid">
+			ユーザー名<input type="text" th:field="*{userName}" th:value="${userName}" th:errorclass="is-invalid" maxlength="10">
 			<div class="invalid-feedback" th:errors="*{userName}"></div><br>
             資格一覧
             <div>
                 <table>
                     <thead>			
-                        <th></th>
+						<th>選択</th>							
+						<th>No</th>
                         <th>資格ID</th>
                         <th>資格名</th>
                     </thead>
@@ -29,6 +33,7 @@
                             <td><input type="checkbox" name="qualificationIds"
                                  th:value="${item.qualificationId}"
                                  th:checked="${item.selectQualification}"></td>
+						 	<td th:text="${item.no}"></td>
                             <td th:text="${item.qualificationId}"></td>
                             <td th:text="${item.qualificationName}"></td>
                         </tr>

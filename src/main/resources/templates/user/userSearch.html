@@ -7,14 +7,17 @@
 <title>ユーザー検索画面</title>
 </head>
 <body>
-	<div layout:fragment="content">
+	<div layout:fragment="content">	
+		<div th:each="item:	${message}">
+			<label th:text="${item}" ></label>
+		</div>
 		<form method="get" action="/user/register">
 			<input type="submit" value="新規作成">
 		</form>
 		<form method="post" action="/user/search" th:object="${userForm}">
-			ユーザーID<input type="text" th:field="*{userId}" th:errorclass="is-invalid">
+			ユーザーID<input type="text" th:field="*{userId}" th:errorclass="is-invalid" maxlength="6">
 			<div class="invalid-feedback" th:errors="*{userId}"></div><br>
-			ユーザー名<input type="text" th:field="*{userName}" th:errorclass="is-invalid">
+			ユーザー名<input type="text" th:field="*{userName}" th:errorclass="is-invalid" maxlength="10">
 			<div class="invalid-feedback" th:errors="*{userName}"></div><br>
 			<input type="submit" value="検索">
 		</form>
@@ -26,13 +29,15 @@
 					<input value="削除" type="submit" formmethod="post" formaction="/user/delete">
 					<table>
 						<thead>			
-							<th></th>
+							<th>選択</th>							
+							<th>No</th>
 							<th>ユーザーID</th>
 							<th>ユーザー名</th>
 						</thead>
 						<tbody>
 							<tr th:each="item: ${userList}">				
-								<td><input type="radio" name="userId" th:field="*{userId}" th:value="${item.userId}"></td>
+								<td><input type="radio" name="userId" th:field="*{userId}" th:value="${item.userId}"></td>								
+								<td th:text="${item.no}"></td>
 								<td th:text="${item.userId}"></td>
 								<td th:text="${item.userName}"></td>
 							</tr>

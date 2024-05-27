@@ -18,11 +18,13 @@
                 <div>
                     <table>
                         <thead>
+							<th>No</th>
                             <th>資格ID</th>
                             <th>資格名</th>
                         </thead>
                         <tbody>
                             <tr th:each="item: ${qualificationList}">
+								<td th:text="${item.no}"></td>
                                 <td th:text="${item.qualificationId}"></td>
                                 <td th:text="${item.qualificationName}"></td>
                             </tr>
