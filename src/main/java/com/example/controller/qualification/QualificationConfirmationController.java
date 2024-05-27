@@ -48,6 +48,7 @@ public class QualificationConfirmationController {
 		
 		// エラー確認
 		if(!errorMsg.isEmpty()) {
+			model.addAttribute("message",errorMsg);
 			return UtilConst.RESPONSE_PATH_QUALIFICATION_REGISTER;
 		}
 

@@ -10,6 +10,9 @@
 <body>
 	<div layout:fragment="content">
 		<form th:object="${qualificationForm}">
+			<div th:each="item:	${message}">
+				<label th:text="${item}" ></label>
+			</div>
 			資格ID<input type="text" th:field="*{qualificationId}" th:value="${qualificationId}" th:disabled="*{editMode == 1}" th:errorclass="is-invalid">
 			<div class="invalid-feedback" th:errors="*{qualificationId}"></div><br>
 			資格名<input type="text" th:field="*{qualificationName}" th:value="${qualificationName}" th:errorclass="is-invalid">
