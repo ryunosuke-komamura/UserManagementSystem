@@ -6,7 +6,8 @@
 <mapper namespace="com.example.repository.UserMapper">
 	<select id="findUser" resultType="UserModel">
 		SELECT
-			*
+			ROW_NUMBER() OVER(ORDER BY USER_ID ASC) AS No,
+			MST_USER.*
 		FROM
 			MST_USER
 		<where>
