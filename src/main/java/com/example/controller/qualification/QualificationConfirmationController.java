@@ -37,12 +37,12 @@ public class QualificationConfirmationController {
 		List<String> errorMsg = new ArrayList<String>();
 		// バリデーションチェック
 		// 必須チェック
-		if(StringUtils.isBlank(form.getQualificationId())) {
+		if(StringUtils.isBlank(form.getQualificationId()) && StringUtils.isBlank(form.getQualificationIdBefore())) {
 			errorMsg.add("資格IDは必須です。");
 		}
 
 		// 必須チェック
-		if(form.getQualificationName().isEmpty()) {
+		if(StringUtils.isBlank(form.getQualificationName())) {
 			errorMsg.add("資格名は必須です。");
 		}
 		
@@ -52,19 +52,27 @@ public class QualificationConfirmationController {
 			return UtilConst.RESPONSE_PATH_QUALIFICATION_REGISTER;
 		}
 
-		// formを個別modelに変換
-		QualificationModel qualificationModel = modelMapper.map(form, QualificationModel.class);
 		
-		// SearchServiceの実行
-		List<QualificationModel> qualificationList = qualificationSearchService.getQualification(qualificationModel);
-		
-		if(!qualificationList.isEmpty()) {
-			form.setQualificationId(qualificationList.get(0).getQualificationId());
-			form.setQualificationName(qualificationList.get(0).getQualificationName());
-			model.addAttribute("qualificationList", qualificationList);
+		if(StringUtils.isBlank(form.getQualificationId())) {
+			form.setQualificationId(form.getQualificationIdBefore());
 		}
 
-		//userRegister.htmlに遷移
+		if(form.getEditMode() == UtilConst.EDIT_MODE_INSERT) {
+			QualificationModel qualificationModel = new QualificationModel();
+			// 資格IDを格納
+			qualificationModel.setQualificationId(form.getQualificationId());
+			
+			// 存在チェック
+			List<QualificationModel> qualificationList = qualificationSearchService.getQualification(qualificationModel);
+			
+			if(!qualificationList.isEmpty()) {
+				errorMsg.add("資格名IDが重複しています。");
+				model.addAttribute("message",errorMsg);
+				return UtilConst.RESPONSE_PATH_QUALIFICATION_REGISTER;
+			}
+		}
+
+		//qualificationConfirmation.htmlに遷移
 		return UtilConst.RESPONSE_PATH_QUALIFICATION_CONFIRMATION;
 	}
 

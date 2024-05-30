@@ -123,7 +123,9 @@ public class QualificationRegisterController {
 
 		if (!qualificationList.isEmpty()) {
 			form.setQualificationId(qualificationList.get(0).getQualificationId());
+			form.setQualificationIdBefore(qualificationList.get(0).getQualificationId());
 			form.setQualificationName(qualificationList.get(0).getQualificationName());
+			form.setQualificationNameBefore(qualificationList.get(0).getQualificationName());
 			model.addAttribute("qualificationList", qualificationList);
 		}
 

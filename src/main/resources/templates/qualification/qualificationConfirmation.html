@@ -10,8 +10,8 @@
 <body>
 	<div layout:fragment="content">
 		<form th:object="${qualificationForm}">
-			資格ID <label th:field="*{qualificationId}" th:text="*{qualificationId}" ></label><br>
-			資格名 <label th:field="*{qualificationName}" th:text="*{qualificationName}" ></label><br>
+			資格ID <label th:text="*{qualificationId}" ></label><br>
+			資格名 <label th:text="*{qualificationName}" ></label><br>
 			<input type="text" th:field="*{qualificationId} "th:value="${qualificationId}" hidden>
 			<input type="text" th:field="*{qualificationName} "th:value="${qualificationName}" hidden>
 			<input type="text" th:field="*{editMode} "th:value="${editMode}" hidden>

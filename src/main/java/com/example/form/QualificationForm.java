@@ -34,8 +34,13 @@ public class QualificationForm {
 	private String qualificationName;
 	
 	/**
-	 * 資格リスト
+	 * 変更前資格ID
 	 */
-	//private List<> qualificationList;
+	private String qualificationIdBefore;
+
+	/**
+	 * 変更前資格名
+	 */
+	private String qualificationNameBefore;
 	
 }
