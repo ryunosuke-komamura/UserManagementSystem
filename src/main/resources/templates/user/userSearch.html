@@ -21,7 +21,7 @@
 			<div class="invalid-feedback" th:errors="*{userName}"></div><br>
 			<input type="submit" value="検索">
 		</form>
-		<div th:if="${userList} != null">
+		<div th:if="!${#lists.isEmpty(userList)}">
 			一覧
 			<div>
 				<form th:object="${userForm}">
