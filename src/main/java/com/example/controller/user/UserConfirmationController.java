@@ -105,6 +105,7 @@ public class UserConfirmationController {
 			
 			// 資格一覧の検索実行
 			List<QualificationModel> resultQualification = qualificationSearchService.getQualification(searchQualificationModel);
+			resultQualification.get(0).setNo(String.valueOf(qualificationList.size() + 1));
 			qualificationList.add(resultQualification.get(0));
 		}
 		
