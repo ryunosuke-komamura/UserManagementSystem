@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,6 +70,10 @@ public class QualificationSearchController {
 		// SearchServiceの実行
 		getQualificationList(model, serchCondition);
 
+		// 資格0件チェック
+		if (ObjectUtils.isEmpty(model.getAttribute("qualificationList"))) {
+			model.addAttribute("message","該当の資格はありませんでした");
+		}
 		session.setAttribute("serchCondition", serchCondition);
 
 		return UtilConst.RESPONSE_PATH_QUALIFICATION_SEARCH;
@@ -87,15 +92,34 @@ public class QualificationSearchController {
 		// 必須チェック
 		if(qualificationModel.getQualificationId() == null) {
 			errorMsg.add("資格を選択してください。");
+		} else {
+			// ユーザーー資格連関テーブル存在確認
+			int usreQualCount = qualificationSearchService.getUserQualification(qualificationModel);
+			
+			if(usreQualCount > 0) {
+				errorMsg.add("資格がユーザーに紐づいているため削除出来ません。");
+			}
+		}
+		
+		// エラー確認
+		if(!errorMsg.isEmpty()) {
+			getQualificationList(model, (QualificationModel)session.getAttribute("serchCondition"));
+			form.setQualificationId("");
+			model.addAttribute("message",errorMsg);
+			return UtilConst.RESPONSE_PATH_QUALIFICATION_SEARCH;
 		}
 
-		// SearchServiceの実行
+		// 資格削除の実行
 		qualificationSearchService.deleteQualification(qualificationModel);
 
-		// SearchServiceの実行
-		List<QualificationModel> qualificationList = qualificationSearchService.getQualification(qualificationModel);
+		QualificationModel serchCondition = (QualificationModel)session.getAttribute("serchCondition");
 
-		model.addAttribute("qualificationList", qualificationList);
+		// 検索結果の再実行
+		getQualificationList(model, serchCondition);
+		form.setQualificationId(serchCondition.getQualificationId());
+		form.setQualificationName(serchCondition.getQualificationName());
+
+		model.addAttribute("message","削除完了しました");
 
 		return UtilConst.RESPONSE_PATH_QUALIFICATION_SEARCH;
 	}

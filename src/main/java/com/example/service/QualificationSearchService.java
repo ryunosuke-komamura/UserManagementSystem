@@ -17,4 +17,7 @@ public interface QualificationSearchService {
 	
 	/** 資格マスタ削除 */
 	public int deleteQualification(QualificationModel qualificationModel);
+
+	/** ユーザーー資格連関検索 */
+	public int getUserQualification(QualificationModel qualificationModel);
 }

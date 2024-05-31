@@ -9,6 +9,9 @@
 
 <body>
 	<div layout:fragment="content">
+		<div th:each="item:	${message}">
+			<label th:text="${item}"></label>
+		</div>
 		<form method="get" action="/qualification/register">
 			<input type="submit" value="新規作成">
 		</form>
@@ -20,7 +23,7 @@
 
 			<input type="submit" value="検索">
 		</form>
-		<div th:if="${qualificationList} != null">
+		<div th:if="!${#lists.isEmpty(qualificationList)}">
 			検索結果
 			<div>
 				<form th:object="${qualificationForm}">
@@ -36,7 +39,7 @@
 						<tbody>
 							<tr th:each="item: ${qualificationList}">
 								<td><input type="radio" name="qualificationId" th:field="*{qualificationId}"
-									th:value="${item.qualificationId}"></td>
+										th:value="${item.qualificationId}"></td>
 								<td th:text="${item.no}"></td>
 								<td th:text="${item.qualificationId}"></td>
 								<td th:text="${item.qualificationName}"></td>

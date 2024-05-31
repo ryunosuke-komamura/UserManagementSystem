@@ -23,51 +23,52 @@ import io.micrometer.common.util.StringUtils;
 @Controller
 @RequestMapping(UtilConst.MAPPING_PATH_QUALIFICATION)
 public class QualificationConfirmationController {
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Autowired
 	private QualificationSearchService qualificationSearchService;
-	
+
 	@PostMapping(UtilConst.MAPPING_PATH_CONFIRMATION)
 	/** 画面遷移：資格登録変更画面 */
-	public String postQualificationConfirmation(Model model ,@ModelAttribute @Validated QualificationForm form, BindingResult bindingResult) {
-		
+	public String postQualificationConfirmation(Model model, @ModelAttribute @Validated QualificationForm form,
+			BindingResult bindingResult) {
+
 		List<String> errorMsg = new ArrayList<String>();
 		// バリデーションチェック
 		// 必須チェック
-		if(StringUtils.isBlank(form.getQualificationId()) && StringUtils.isBlank(form.getQualificationIdBefore())) {
+		if (StringUtils.isBlank(form.getQualificationId()) && StringUtils.isBlank(form.getQualificationIdBefore())) {
 			errorMsg.add("資格IDは必須です。");
 		}
 
 		// 必須チェック
-		if(StringUtils.isBlank(form.getQualificationName())) {
+		if (StringUtils.isBlank(form.getQualificationName())) {
 			errorMsg.add("資格名は必須です。");
 		}
-		
+
 		// エラー確認
-		if(!errorMsg.isEmpty()) {
-			model.addAttribute("message",errorMsg);
+		if (!errorMsg.isEmpty()) {
+			model.addAttribute("message", errorMsg);
 			return UtilConst.RESPONSE_PATH_QUALIFICATION_REGISTER;
 		}
 
-		
-		if(StringUtils.isBlank(form.getQualificationId())) {
+		if (StringUtils.isBlank(form.getQualificationId())) {
 			form.setQualificationId(form.getQualificationIdBefore());
 		}
 
-		if(form.getEditMode() == UtilConst.EDIT_MODE_INSERT) {
+		if (form.getEditMode() == UtilConst.EDIT_MODE_INSERT) {
 			QualificationModel qualificationModel = new QualificationModel();
 			// 資格IDを格納
 			qualificationModel.setQualificationId(form.getQualificationId());
-			
+
 			// 存在チェック
-			List<QualificationModel> qualificationList = qualificationSearchService.getQualification(qualificationModel);
-			
-			if(!qualificationList.isEmpty()) {
+			List<QualificationModel> qualificationList = qualificationSearchService
+					.getQualification(qualificationModel);
+
+			if (!qualificationList.isEmpty()) {
 				errorMsg.add("資格名IDが重複しています。");
-				model.addAttribute("message",errorMsg);
+				model.addAttribute("message", errorMsg);
 				return UtilConst.RESPONSE_PATH_QUALIFICATION_REGISTER;
 			}
 		}
@@ -78,25 +79,37 @@ public class QualificationConfirmationController {
 
 	@PostMapping(UtilConst.MAPPING_PATH_EXECUTION)
 	/** 資格登録・更新 */
-	public String postQualificationRegister(Model model ,@ModelAttribute @Validated QualificationForm form, BindingResult bindingResult) {
-		
+	public String postQualificationRegister(Model model, @ModelAttribute @Validated QualificationForm form,
+			BindingResult bindingResult) {
+
 		QualificationModel qualificationModel = new QualificationModel();
 
 		// 資格IDを格納
 		qualificationModel.setQualificationId(modelMapper.map(form, QualificationModel.class).getQualificationId());
-		
+
 		// 存在チェック
 		List<QualificationModel> qualificationList = qualificationSearchService.getQualification(qualificationModel);
-		
+
 		// 資格名を格納
 		qualificationModel.setQualificationName(modelMapper.map(form, QualificationModel.class).getQualificationName());
-		
-		// データ存在確認。
-		if(!qualificationList.isEmpty()) {
-			qualificationSearchService.updateQualification(qualificationModel);
-		} else {
-			qualificationSearchService.insertQualification(qualificationModel);
+
+		try {
+			// データ存在確認。
+			if (!qualificationList.isEmpty()) {
+				qualificationSearchService.updateQualification(qualificationModel);
+			} else {
+				qualificationSearchService.insertQualification(qualificationModel);
+			}
+		} catch (IllegalArgumentException err) {
+			//userConfirmation.htmlに遷移
+			return UtilConst.RESPONSE_PATH_USER_CONFIRMATION;
 		}
+
+		form.setQualificationId("");
+		form.setQualificationIdBefore("");
+		form.setQualificationName("");
+		form.setQualificationNameBefore("");
+		model.addAttribute("message", "登録完了しました");
 
 		//userRegister.htmlに遷移
 		return UtilConst.RESPONSE_PATH_QUALIFICATION_SEARCH;

@@ -14,6 +14,15 @@
 			USER_ID = #{userId}
 	</select>
 	
+	<select id="findUserQualByQualId" resultType="String">
+		SELECT
+			USER_ID
+		FROM
+			RELA_USER_QUALIFICATION
+	
+		WHERE 
+			QUALIFICATION_ID = #{qualificationId}
+	</select>
 	
 	<insert id="insertUserQual">
 		INSERT INTO RELA_USER_QUALIFICATION(
