@@ -60,7 +60,7 @@ public class UserRegisterController {
 		form.setEditMode(UtilConst.EDIT_MODE_INSERT);
 
 		// 資格一覧の検索実行
-		getUserQualFormList(model);
+		setUserQualFormList(model, form.getQualificationIds());
 		
 		//userRegister.htmlに遷移
 		return UtilConst.RESPONSE_PATH_USER_REGISTER;
@@ -94,31 +94,48 @@ public class UserRegisterController {
 		
 		// SearchServiceの実行
 		List<UserModel> userList = userSearchService.getUser(userModel);
-		// 資格一覧の検索実行
-		List<UserQualForm> userQualFormList = getUserQualFormList(model);
 		
 		if(!userList.isEmpty()) {
 			form.setUserId(userList.get(0).getUserId());
 			form.setUserName(userList.get(0).getUserName());
 			form.setQualificationIds(userList.get(0).getQualificationIds());
 
-			for(String searchQualification :userList.get(0).getQualificationIds()) {
-				for(UserQualForm userQualForm: userQualFormList) {
-					if(userQualForm.getQualificationId().equals(searchQualification)) {
-						userQualForm.setSelectQualification(true);
-						break;
-					}
-				}
-			}
-			model.addAttribute("userQualFormList",userQualFormList);
+			setUserQualFormList(model, userList.get(0).getQualificationIds());
 		}
 		
 		//userRegister.htmlに遷移
 		return UtilConst.RESPONSE_PATH_USER_REGISTER;
 	}
 	
-	/** 資格一覧の検索実行 */
-	private List<UserQualForm> getUserQualFormList(Model model) {
+//	/**
+//	 * 資格一覧の検索実行
+//	 * @param model 
+//	 */
+//	private List<UserQualForm> getUserQualFormList(Model model) {
+//		// 資格一覧の検索実行
+//		List<QualificationModel> qualificationList = qualificationSearchService.getQualification(new QualificationModel());
+//
+//		List<UserQualForm> userQualFormList = new ArrayList<UserQualForm>();
+//		
+//		for(QualificationModel qualification: qualificationList) {
+//			UserQualForm userQualForm = new UserQualForm();
+//			userQualForm.setSelectQualification(false);
+//			userQualForm.setNo(qualification.getNo());
+//			userQualForm.setQualificationId(qualification.getQualificationId());
+//			userQualForm.setQualificationName(qualification.getQualificationName());
+//			userQualFormList.add(userQualForm);
+//		}
+//		
+//		return userQualFormList;
+//	}
+	
+	/**
+	 * 資格一覧の検索実行、チェックボックスセット
+	 * @param model 
+	 * @param userQualFormList 資格ID一覧
+	 * @param qualificationIds ユーザー資格連関一覧
+	 */
+	private void setUserQualFormList(Model model,  List<String> qualificationIds) {
 		// 資格一覧の検索実行
 		List<QualificationModel> qualificationList = qualificationSearchService.getQualification(new QualificationModel());
 
@@ -133,9 +150,23 @@ public class UserRegisterController {
 			userQualFormList.add(userQualForm);
 		}
 		
+		if(qualificationIds == null) {
+			// 選択の資格一覧が無ければ、そのままセット
+			model.addAttribute("userQualFormList",userQualFormList);
+			return;
+		}
+		
+		for(String searchQualification :qualificationIds) {
+			for(UserQualForm userQualForm: userQualFormList) {
+				if(userQualForm.getQualificationId().equals(searchQualification)) {
+					// DBから取得したユーザー資格連関一覧が、資格一覧IDと一致したら、選択状態をセットする。
+					userQualForm.setSelectQualification(true);
+					break;
+				}
+			}
+		}
 		model.addAttribute("userQualFormList",userQualFormList);
 		
-		return userQualFormList;
 	}
 
 }
