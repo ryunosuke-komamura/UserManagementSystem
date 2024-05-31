@@ -28,7 +28,8 @@ public class UserExecutionServiceImpl implements UserExecutionService {
 	@Transactional
 	public void insertUser(UserModel userModel) {
 		List<UserModel> userList = userMapper.findUser(new UserModel());
-		String createUserId = "U"+String.format("%05d", userList.size());
+		// ユーザー一覧の総数+1の数値を設定
+		String createUserId = "U"+String.format("%05d", userList.size() + 1);
 		userModel.setUserId(createUserId);
 		// ユーザーの登録
 		userMapper.insertUser(userModel);
